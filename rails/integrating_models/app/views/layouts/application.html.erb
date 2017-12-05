@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>IntegratingModels</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+<h2>User Crud Pratice</h2>
+<h4><a href="/users/new">Add User</a>|<a href="/users">Index</a>|<a href="/users/total">Total</a></h4>
+
+<%= yield %>
+
+</body>
+</html>

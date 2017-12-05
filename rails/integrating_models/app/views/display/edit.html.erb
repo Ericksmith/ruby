@@ -1,0 +1,13 @@
+
+<fieldset>
+    <% if flash[:errors] %>
+      <% flash[:errors].each do |error| %>
+        <p> <%= error %></p>
+      <% end %>
+    <% end %>
+  <form action="/users/<%= @user.id%>" method="post"> 
+    <input type="hidden" name="_method" value="patch">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token =%>">
+    <input type="text" name="user[name]" value="<%= @user.name %>">
+    <input type="submit" value="Create">
+  </form></fieldset>

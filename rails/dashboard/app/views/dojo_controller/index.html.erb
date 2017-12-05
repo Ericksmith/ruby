@@ -1,0 +1,22 @@
+<h1>Listing <%= @dojos.length %> Dojos</h1>
+
+<table>
+  <tr>
+    <th>Branch</th>
+    <th>Street</th>
+    <th>City</th>
+    <th>State</th>
+  </tr>
+  <% if @dojos %>
+    <% @dojos.each do |d|%>
+    <tr>
+      <td><%= d.branch %></td>
+      <td><%= d.street %></td>
+      <td><%= d.city %></td>
+      <td><%= d.state %></td>
+    </tr>
+    <% end %>
+  <% end %>
+</table>
+
+<a href="/new">New Dojo</a>

@@ -1,0 +1,9 @@
+<ul>
+<p><% @users.each do |u| %></p>
+  
+  <li><%= u.id %>
+  <a href="/users/<%= u.id %>"><%= u.name %></a>
+  <%= u.created_at %>
+  <%= u.updated_at %></li>
+<% end %>
+</ul>
