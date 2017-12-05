@@ -35,6 +35,16 @@ class DojoControllerController < ApplicationController
     end
   end
 
+  def destroy
+    puts "In delete"
+    if Dojo.find(params[:id]).destroy
+      redirect_to '/dojos'
+    else
+      flash[:message] = ['Unable to destroy Dojo']
+      redirect_to :back
+    end
+  end
+
 
   private
     def dojo_params
