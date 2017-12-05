@@ -1,9 +1,16 @@
 Rails.application.routes.draw do
-  root 'dojo_controller#index'
+  
+  get 'dojos' => 'dojo_controller#index'
 
-  get 'new' => 'dojo_controller#new'
+  get 'dojos/new' => 'dojo_controller#new'
 
-  post 'create' => 'dojo_controller#create'
+  post 'dojos/create' => 'dojo_controller#create'
+
+  get 'dojos/:id' => 'dojo_controller#show'
+
+  get 'dojos/:id/edit' => 'dojo_controller#edit'
+
+  patch 'dojos' => 'dojo_controller#update'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
