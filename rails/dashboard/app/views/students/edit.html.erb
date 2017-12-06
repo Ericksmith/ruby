@@ -1,7 +1,8 @@
 <h1>Editing </h1>
 
-<form action="/dojos/<%= @student.dojo_id %>/students/<%= @student.id %>/edit" method="post">
+<form action="/dojos/<%= @student.dojo_id %>/students/<%= @student.id %>" method="post">
   <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token =%>'>
+  <input type="hidden" name="_method" value="patch">
   <p>First Name: <input type="text" name="student[first_name]" value="<%= @student.first_name%>"></p>
   <p>Last Name: <input type="text" name="student[last_name]" value="<%= @student.last_name%>"></p>
   <p>Email: <input type="text" name="student[email]" value="<%= @student.email%>"></p>
@@ -18,3 +19,5 @@
 </select></p>
 <input type="submit" value="Update">
 </form>
+
+<a href="/dojos">Home</a> | <a href="/dojos/<%= @student.dojo_id %>/students/<%= @student.id%>"><%= @student.first_name%></a>

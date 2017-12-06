@@ -18,14 +18,20 @@ class StudentsController < ApplicationController
   def update
     student = Student.find(params[:id])
     if student.update(student_params)
-      redirect_to "dojos/#{student.dojo_id}/students/#{student.id}"
+      redirect_to "/dojos/#{student.dojo_id}/students/#{student.id}"
     else
       flash[:message] = student.errors.full_messages
       redirect_to :back
     end
   end
 
-  def delete
+  def destroy
+    if Student.find(params[:id]).destroy
+      redirect_to :back
+    else
+      flash[:message] = ["Unable to delete student"]
+      redirect_to :back
+    end
   end
 
   def edit
@@ -35,6 +41,8 @@ class StudentsController < ApplicationController
 
   def show
     @student = Student.find(params[:id])
+    time_range = (@student.created_at - 1.day)..@student.created_at
+    @cohort = Student.where(dojo=@student.id).where(created_at: time_range)
   end
 
   private
