@@ -1,4 +1,4 @@
-class DojoControllerController < ApplicationController
+class DojosController < ApplicationController
   def index
     @dojos = Dojo.all
   end
@@ -19,6 +19,7 @@ class DojoControllerController < ApplicationController
 
   def show
     @dojo = Dojo.find(params[:id])
+    @students = Student.where(dojo_id=params[:id])
   end
 
   def edit

@@ -1,2 +1,12 @@
-<h1>Students#show</h1>
-<p>Find me in app/views/students/show.html.erb</p>
+<h1><%= @student.dojo.branch %>'s <%= @student.first_name %> <%= @student.last_name %></h1>
+
+<p>Email: <%= @student.email%></p>
+
+<h3>Cohort</h3>
+
+
+<table>
+
+</table>
+
+<a href="/dojos/<% @student.dojo_id %>">Home</a> | <a href="/dojos/<%= @student.dojo_id %>/students/<%= @student.id%>/edit">Edit</a>
