@@ -16,6 +16,11 @@ class Project
       @task.push(task)
     end
 
+    def print_tasks
+      @task.each do |t|
+        puts t
+      end
+    end
 end
 # project1 = Project.new("Project 1", "Description 1")
 # puts project1.name

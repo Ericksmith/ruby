@@ -12,4 +12,14 @@ RSpec.describe Project do
     expect(@project1.owner).to eq("Changed owner")
   end
 
+  it 'has a method add_task that adds tasks to project and tasks that output an array of tasks' do
+    @project1.add_tasks("write tests")
+    expect(@project1.tasks).to eq(["write tests"])
+  end
+
+  it 'has a method print_tasks that prints each task' do
+    @project1.add_tasks('1')
+    @project1.add_tasks('2')
+    expect{ @project1.print_tasks }.to output("1\n2\n").to_stdout
+  end
 end
