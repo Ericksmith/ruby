@@ -1,2 +1,52 @@
-<h1>Users#index</h1>
-<p>Find me in app/views/users/index.html.erb</p>
+<% content_for :left_column do %>
+<h1>All Users</h1>
+<table class="table">
+  <thead>
+    <tr>
+      <th>First Name: </th>
+      <th>Last Name</th>
+      <th>Favorite Language</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if @users %>
+      <% @users.each do |u|%>
+    <tr>
+      <td scope="row"><%= u.first_name %></td>
+      <td><%= u.last_name %></td>
+      <td><%= u.favorite_language %></td>
+    </tr>
+    <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<% end %>
+
+<% content_for :right_column do %>
+  <h1 class="text-primary">New User</h1 >
+    <% if flash[:message] %>
+      <% flash[:message].each do |m| %>
+      <p><%= m %></p>
+    <%end%>
+    <%end%>
+  <form action="/users" method="post">
+    <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token =%>'>
+    <div class="form-group">
+      <label for="">First Name</label>
+      <input type="text" class="form-control" name="user[first_name]" id="" aria-describedby="helpId" placeholder="">
+      <div class="form-group">
+        <label for="user[last_name]">Last Name</label>
+        <input type="text" class="form-control" name="user[last_name]" id="user[last_name]" aria-describedby="helpId" placeholder="">
+      <div class="form-group">
+        <label for="user[favorite_language]">Language</label>
+        <input type="text" class="form-control" name="user[favorite_language]" id="user[favorite_language]" aria-describedby="helpId" placeholder="">
+      <input type="submit" value="submit" class="btn btn-primary">
+      </div>
+      </div>
+    </div>
+  </form>
+
+<% end %>
+
+

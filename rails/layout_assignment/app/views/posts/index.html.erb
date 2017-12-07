@@ -1,5 +1,55 @@
 <% content_for :left_column do %>
-<h1>Posts#index</h1>
-<p>Find me in app/views/posts/index.html.erb</p>
+<h1>All Posts</h1>
+<table class="table table-{1:bordered}table-responsive">
+  <thead class="thead-default">
+    <tr>
+      <th>Title</th>
+      <th>Content</th>
+      <th>Author</th>
+    </tr>
+    </thead>
+    <tbody>
+      <%if @posts %>
+      <% @posts.each do |p|%>
+      <tr>
+        <td scope="row"><%= p.title %></td>
+        <td><%= p.content %></td>
+        <td><%= p.user.first_name %> <%= p.user.last_name %></td>
+      </tr>
+      <%end%>
+      <%end%>
 
+    </tbody>
+</table>
 <% end %>
+<% content_for :mid_column do %>
+<h1>New Post</h1>
+<% if flash[:message] %>
+<% flash[:message].each do |m|%>
+<p><%= m %></p>
+<%end%>
+<%end%>
+<form action="/posts" method="post">
+  <div class="form-group">
+    <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token =%>'>
+    <label for="post[title]">Title</label>
+    <input type="text" class="form-control" name="post[title]" id="post[title]" aria-describedby="helpId" placeholder="">
+      <label for="post[content]">Content</label>
+      <textarea class="form-control" name="post[content]" id="post[content]" rows="3"></textarea>
+        <label for="post[user_id]">Author</label>
+        <select class="form-control" name="post[user_id]" id="post[user_id]">
+          <% if @users %>
+          <% @users.each do |u|%>
+            <option value="<%= u.id %>"><%= u.first_name %> <%= u.last_name %></option>
+          <%end%>
+          <%end%>
+        </select>
+      </div>
+      <input type="submit" value="submit" class="btn btn-primary">
+</form>
+<% end %>
+<% content_for :right_column do %>
+<h1>Go to Users Page</h1>
+<a name="" id="" class="btn btn-primary" href="/2column" role="button">All Users</a>
+<% end %>
+
