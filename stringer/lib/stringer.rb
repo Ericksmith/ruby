@@ -42,7 +42,6 @@ module Stringer
     wordArr.each do |w|
       if w != remove
         result += w + " "
-
       end
     end
     result
