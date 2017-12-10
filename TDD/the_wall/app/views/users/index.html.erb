@@ -1,0 +1,45 @@
+<div class="container">
+    <span class="text-left"> Coding Dojo Wall</span>
+    <span class="text-center"> Welcome <%= @user.username %> </span>
+    <nav class="navbar navbar-expand navbar-light bg-light">
+        <div class="nav navbar-nav">
+            <a class="nav-item nav-link active" href="/logout">logout <span class="sr-only">(current)</span></a>
+        </div>
+    </nav>
+
+    <h1>Post a Message</h1>
+    <%if flash[:post_error] %>
+    <% flash[:post_error].each do |m|%>
+    <p><%= m %></p>
+    <%end%>
+    <%end%>
+    <form action="/post" method="post">
+        <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token =%>'>
+        <textarea name="post[content]" id="" cols="30" rows="10"></textarea>
+        <input type="hidden" name="post[user_id]" value="<%= @user.id %>">
+        <input type="submit" value="Post a Message">
+    </form>
+
+    <% if @posts %>
+        <% @posts.each do |post|%>
+            <p><%= post.user.username %> - <%= post.created_at %></p>
+            <br>
+            <p><%= post.content %></p>
+            <% if post.comment %>
+                <h3>Comments:</h3>
+                <% post.comment.each do |comment|%>
+                    <p><%= comment.user.username %> - <%= comment.created_at %></p>
+                    <br>
+                    <p><%= comment.message %></p>
+                <%end%>
+            <%end%>
+            <form action="/comment" method="post">
+                <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token =%>'>
+                <textarea name="comment[message]" id="" cols="30" rows="10"></textarea>
+                <input type="hidden" name="comment[post_id]" value="<%= post.id %>">
+                <input type="hidden" name="comment[user_id]" value="<%= @user.id %>">
+                <input type="submit" value="Post a Comment">
+            </form>
+        <%end%>
+    <%end%>
+</div>
