@@ -1,12 +1,9 @@
 <div class="container">
-    <span class="text-left"> Coding Dojo Wall</span>
-    <span class="text-center"> Welcome <%= @user.username %> </span>
-    <nav class="navbar navbar-expand navbar-light bg-light">
-        <div class="nav navbar-nav">
-            <a class="nav-item nav-link active" href="/logout">logout <span class="sr-only">(current)</span></a>
-        </div>
-    </nav>
-
+    <div class="row">
+        <div class="col-sm-4 h3"> Coding Dojo Wall</div>
+        <div class="col-md-4 h3"> Welcome <%= @user.username %> </div>
+        <div class="h3 col-lg-4"> <a class="nav-link active" href="/logout">Logout</a></div>
+    </div> <!-- row end -->
     <h1>Post a Message</h1>
     <%if flash[:post_error] %>
     <% flash[:post_error].each do |m|%>
@@ -15,30 +12,30 @@
     <%end%>
     <form action="/post" method="post">
         <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token =%>'>
-        <textarea name="post[content]" id="" cols="30" rows="10"></textarea>
+        <textarea name="post[content]" id="post_content" cols="80" rows="7"></textarea>
         <input type="hidden" name="post[user_id]" value="<%= @user.id %>">
-        <input type="submit" value="Post a Message">
+        <div class="text-center"><input class="btn btn-primary" type="submit" value="Post a Message"></div>
     </form>
-
     <% if @posts %>
         <% @posts.each do |post|%>
-            <p><%= post.user.username %> - <%= post.created_at %></p>
-            <br>
-            <p><%= post.content %></p>
-            <% if post.comment %>
+        <blockquote><%= post.content %>
+            <div class="blockqoute-footer"><%= post.user.username %> - <%= post.created_at %></div>
+        </blockquote> 
+           <% if post.comment %>
                 <h3>Comments:</h3>
                 <% post.comment.each do |comment|%>
-                    <p><%= comment.user.username %> - <%= comment.created_at %></p>
-                    <br>
-                    <p><%= comment.message %></p>
+                <blockqoute class="col-5"><%= comment.message %>
+                    <div class"blockqoute-footer"><%= comment.user.username %> - <%= comment.created_at %></div>
+                </blockqoute>
                 <%end%>
             <%end%>
+            <br>
             <form action="/comment" method="post">
                 <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token =%>'>
-                <textarea name="comment[message]" id="" cols="30" rows="10"></textarea>
+                <textarea name="comment[message]" id="comment_content" cols="80" rows="7"></textarea>
                 <input type="hidden" name="comment[post_id]" value="<%= post.id %>">
                 <input type="hidden" name="comment[user_id]" value="<%= @user.id %>">
-                <input type="submit" value="Post a Comment">
+                <div class="text-center"><input class="btn btn-primary" type="submit" value="Post a Comment"></div>
             </form>
         <%end%>
     <%end%>

@@ -1,7 +1,7 @@
 require 'rails_helper'
 feature "User creates an account" do
   before(:each) do 
-    visit new_user_path
+    visit users_new_path
   end
   scenario "successfully creates a new user account" do
     fill_in "user_username", with: "Jim-bob"
@@ -19,7 +19,7 @@ feature "User creates an account" do
   scenario "User name too short" do
     fill_in "user_username", with: "frank"
     click_button "Sign In"
-    expect(page).to have_content "Username too short"
+    expect(page).to have_content "Sign in Username is too short"
   end
 
   # scenario "unsuccessfully creates a new user account" do 
