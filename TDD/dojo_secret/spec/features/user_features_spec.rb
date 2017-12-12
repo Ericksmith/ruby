@@ -20,7 +20,7 @@ feature 'User features ' do
     end
     scenario "with proper inputs, create user and redirects to login page" do
       register
-      expect(page).to have_text("Log Out")
+      expect(page).to have_text("Welcome #{@user.name}")
     end
   end
   feature "user dashboard" do 

@@ -30,7 +30,7 @@ feature 'authentication feature' do
     scenario 'displays "Log Out" button when user is logged on' do
       log_in
       expect(current_path).to eq(user_path(@user.id))
-      expect(page).to have_text("Log Out")
+      expect(page).to have_text("Welcome")
     end
     scenario 'logs out user and redirects to login page' do
       log_in
