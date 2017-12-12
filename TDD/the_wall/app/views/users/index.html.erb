@@ -18,25 +18,31 @@
     </form>
     <% if @posts %>
         <% @posts.each do |post|%>
-        <blockquote><%= post.content %>
-            <div class="blockqoute-footer"><%= post.user.username %> - <%= post.created_at %></div>
-        </blockquote> 
-           <% if post.comment %>
-                <h3>Comments:</h3>
-                <% post.comment.each do |comment|%>
-                <blockqoute class="col-5"><%= comment.message %>
-                    <div class"blockqoute-footer"><%= comment.user.username %> - <%= comment.created_at %></div>
-                </blockqoute>
-                <%end%>
-            <%end%>
-            <br>
-            <form action="/comment" method="post">
-                <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token =%>'>
-                <textarea name="comment[message]" id="comment_content" cols="80" rows="7"></textarea>
-                <input type="hidden" name="comment[post_id]" value="<%= post.id %>">
-                <input type="hidden" name="comment[user_id]" value="<%= @user.id %>">
-                <div class="text-center"><input class="btn btn-primary" type="submit" value="Post a Comment"></div>
-            </form>
+        <div class="row">
+            <blockquote class="blockqoute col-10"><%= post.content %>
+            </blockquote>
+                <div class="blockqoute-footer row offset-3"><%= post.user.username %> - <%= post.created_at %></div>
+            <% if post.comment %>
+            <div class="row">
+                <div class="offset-1 col-10">
+                    <h3>Comments:</h3>
+                    <% post.comment.each do |comment|%>
+                        <blockqoute class="col-9 blockqoute"><%= comment.message %>
+                        </blockqoute>
+                        <div class="blockqoute-footer"><%= comment.user.username %> - <%= comment.created_at %></div>
+                    <%end%>
+                    <%end%>
+                    <br>
+                    <form action="/comment" method="post">
+                        <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token =%>'>
+                        <textarea name="comment[message]" id="comment_content" cols="80" rows="7"></textarea>
+                        <input type="hidden" name="comment[post_id]" value="<%= post.id %>">
+                        <input type="hidden" name="comment[user_id]" value="<%= @user.id %>">
+                        <div class="text-center"><input class="btn btn-primary" type="submit" value="Post a Comment"></div>
+                    </form>
+                </div><!-- col end -->
+            </div><!-- row end -->
+        </div><!-- row end -->
         <%end%>
     <%end%>
 </div>
