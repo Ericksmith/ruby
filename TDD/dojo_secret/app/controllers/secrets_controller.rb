@@ -21,4 +21,14 @@ class SecretsController < ApplicationController
       redirect_to :back
     end 
   end
+
+  def update
+    like = Like.new(user_id: current_user.id, secret_id:params[:id])
+    if like.save
+      redirect_to :back
+    else
+      flash[:errors] = ["Unable to like secret"]
+      redirect_to :back
+    end
+  end
 end

@@ -1,8 +1,12 @@
 Rails.application.routes.draw do
-  resources :secrets, only: [:index, :create, :destroy, :update]
-  resources :sessions, only: [:new, :create, :destroy]
+  root "users#new"
 
-  resources :users, only: [:new, :show, :create, :edit, :destroy, :update]
+  get "users/logout" => "users#logout"
+
+  resources :users, only: [:new, :edit, :update, :create]
+  resources :events, only: [:show, :index, :create]
+  resources :comments, only: [:create]
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

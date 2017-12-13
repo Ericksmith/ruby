@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Events</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  
+  <div class="container">
+<% if current_user %>
+  <p class="float-right"> 
+    <a name="edit" id="edit" class="btn btn-primary" href="/users/<%= current_user.id %>/edit" role="button">Edit My Profile</a>  
+    <a name="logout" id="logout" class="btn btn-secondary" href="/users/logout" role="button">Logout</a>
+  </p>
+
+<%end%>
+<%if flash[:errors] %>
+  <% flash[:errors].each do |error|%>
+    <p class="text-danger"><%= error %></p>
+  <%end%>
+<%end%>
+
+  <%= yield %>
+</div>
+</body>
+</html>
