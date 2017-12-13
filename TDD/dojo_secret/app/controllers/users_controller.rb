@@ -3,7 +3,8 @@ class UsersController < ApplicationController
   end
 
   def show
-    @current_user = User.find(session[:user_id]) if session[:user_id]
+    @secrets = Secret.where(user_id: current_user.id)
+    @liked_secrets = Secret.joins(:like).where(likes.user_id: current_user.id )
   end
 
   def create
@@ -19,9 +20,6 @@ class UsersController < ApplicationController
 
   def update
     user = User.find(params[:id])
-    puts "params: *******************"
-    puts update_params
-    puts "***********************"
     if user.update_attributes(update_params)
       redirect_to user_path(user.id)
     else

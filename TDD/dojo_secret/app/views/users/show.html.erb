@@ -1,1 +1,41 @@
-<h1>Welcome <%= @current_user.name %></h1>
+<div class="row">
+    <div class="col-6">
+        <h1>Welcome <%= current_user.name %></h1>
+        <form action="/secrets" method="post">
+            <h3>New Secret</h3>
+            <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token =%>'>
+            <textarea name="Content" id="Content" cols="50" rows="6"></textarea>
+            <button type="submit" class="btn btn-primary">Create Secret</button>
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-6">
+        <br>
+        <h4>Secrets</h4>
+        <%if @secrets%>
+            <% @secrets.each do |secret| %>
+                <div class="row">
+                <div class="col-7">
+                    <p><%= secret.content %></p>
+                    <p><%= secret.likes.count %> likes</p>
+                </div>
+                <div class="col-5">
+                    <a name="like" id="like" class="btn btn-primary" href="/secrets" role="button">Like</a>    
+                    <a name="delete" data-method="delete" id="delete" class="btn btn-warning" href="/secrets/<%= secret.id %>" role="button">Delete Secret</a>
+                </div>
+                <br>
+            </div>
+            <%end%>
+        <%end%>
+    </div>
+    <div class="col-6">
+        <br>
+        <h4>Liked Secrets</h4>
+            <%if @liked_secrets%>
+            <% @liked_secrets.each do |secret| %>
+                <p><%= secret.content %></p>
+            <%end%>
+        <%end%>
+    </div>
+</div>
