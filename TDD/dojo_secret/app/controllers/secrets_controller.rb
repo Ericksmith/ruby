@@ -4,7 +4,7 @@ class SecretsController < ApplicationController
   end
 
   def create
-    secret = Secret.new(Content:params[:content], user_id:current_user.id)
+    secret = Secret.new(content:params[:Content], user_id:current_user.id)
     if secret.save
       redirect_to :back
     else
@@ -15,7 +15,7 @@ class SecretsController < ApplicationController
 
   def destroy
     if Secret.find(params[:id]).destroy
-      redirect_to :back
+      redirect_to user_path(current_user.id)
     else
       flash[:errors] = ["Unable to delete secret"]
       redirect_to :back

@@ -4,7 +4,7 @@ class UsersController < ApplicationController
 
   def show
     @secrets = Secret.where(user_id: current_user.id)
-    @liked_secrets = Secret.joins(:like).where(likes.user_id: current_user.id )
+    # @liked_secrets = Secret.joins(:like).where(likes.user_id: current_user.id )
   end
 
   def create
