@@ -2,9 +2,9 @@ Rails.application.routes.draw do
   root "users#new"
 
   get "users/logout" => "users#logout"
-
+  resources :attendees, only: [:create, :destroy]
   resources :users, only: [:new, :edit, :update, :create]
-  resources :events, only: [:show, :index, :create]
+  resources :events, only: [:show, :index, :create, :destroy]
   resources :comments, only: [:create]
 
 

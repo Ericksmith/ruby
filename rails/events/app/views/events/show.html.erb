@@ -1,2 +1,39 @@
-<h1>Events#show</h1>
-<p>Find me in app/views/events/show.html.erb</p>
+<div class="row">
+    <div class="col-7">
+        <h3><%= @event.name %></h3>
+        <p>Host: <%= @event.user.first_name%> <%= @event.user.last_name%></p>
+        <p>Date: <%= @event.date %></p>
+        <p>Location: <%= @event.city%>, <%= @event.state %></p>
+        <p>Poeple who are joining the event: <%= @attendees.size %></p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Location</th>
+                    <th>State</th>
+                </tr>
+            </thead>
+            <% if @attendeestt %>
+            <tbody>
+                <% @attendees.each do |attendee|%>
+                <tr>
+                    <td scope="row"><%= attendee.first_name %> <%= attendee.last_name %></td>
+                    <td><%= attendee.city %></td>
+                    <td><%= attendee.state %></td>
+                </tr>
+                <%end%>
+            </tbody>
+            <%end%>
+        </table>
+    </div>
+    <div class="col-5">
+        <h4>Discussion about this event:</h4>
+        <form action="/comments" method="post">
+            <div class="form-group">
+              <label for="comment[content]">Add Comment:</label>
+              <textarea class="form-control" name="comment[content]" id="comment[content]" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-info">Submit Comments</button>
+        </form>
+    </div>
+</div>

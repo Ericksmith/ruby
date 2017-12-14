@@ -1,7 +1,7 @@
 <h1>Welcome, <%= @current_user.first_name %></h1>
 
 
-<p>Where are some of the events at your state: </p>
+<p>Where are some of the events in your state: </p>
 
 <div>
     <table class="table table-striped">
@@ -18,11 +18,29 @@
             <tbody>
                 <% @local_events.each do |event| %>
                     <tr>
-                        <td scope="row"><%= event.name %></td>
-                        <td><%= event.date %></td>
+                        <td scope="row"> <a href="/events/<%= event.id %>"> <%= event.name %> </a></td>
+                        <td><%= event.date.strftime("%B %d %Y") %></td>
                         <td><%= event.city %></td>
                         <td><%= event.user.first_name%></td>
-                        <td></td>
+                        <td>
+                            <% if event.users %>
+                                <% event.users.any? do |user|%>
+                                    <% if user.id == @current_user.id %>
+                                    <a name="leave" id="" class="btn btn-warning" data-method="delete" href="/attendees/<% event.id %> " role="button">Leave Event</a>
+                                    <%else%>
+                                        <a href="/attendees/<% event.id %>" class="btn btn-success" data-method="post" role="button">Join</a>    
+                                    <%end%>
+                                <%end%>
+                            <%end%>
+                            <form action="/attendees" method="post">
+                                <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token =%>'>
+                                <button type="submit" class="btn btn-success">Join</button>    
+                                <input type="hidden" name="event_id" value="<%= event.id %>">
+                            </form>
+                            <% if event.user_id == @current_user.id %>
+                                <a href="/events/<%= event.id %>" class="btn btn-danger" data-method="delete" role="button">Delete</a>
+                            <%end%>
+                        </td>
                     </tr>
                 <% end %>
             </tbody>
@@ -46,24 +64,65 @@
     <tbody>
         <% @out_of_state_events.each do |event| %>
         <tr>
-            <td scope="row"><%= event.name %></td>
-            <td><%= event.date %></td>
+            <td scope="row"> <a href="/events/<%= event.id %>"> <%= event.name %> </a></td>
+            <td><%= event.date.strftime("%B %d %Y") %></td>
             <td><%= event.city%></td>
             <td><%= event.state %></td>
             <td><%= event.user.first_name%></td>
+            <td>
+                <% if event.users %>
+                    <% event.users.any? do |user| %>
+                        <% if user.id == @current_user.id %>
+                            <a name="leave" id="" class="btn btn-warning" data-method="delete" href="/attendees/<% event.id %> " role="button">Leave Event</a>
+                        <%else%>
+                        <%end%>
+                        <%end%>
+                        <%end%>
+                        <form action="/attendees" method="post">
+                            <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token =%>'>
+                            <button type="submit" class="btn btn-success">Join</button>    
+                            <input type="hidden" name="event_id" value="<%= event.id %>">
+                        </form>
+                <% if event.user_id == @current_user.id %>
+                    <a href="/events/<%= event.id %>" class="btn btn-danger" data-method="delete" role="button">Delete</a>
+                <%end%>
+            </td>
         </tr>
         <%end%>
     </tbody>
     <%end%>
 </table>
 
-<form action="/events" method="post">
-    <div class="form-group">
-      <label for="event[name]">Name</label>
-      <input type="text" class="form-control" name="event[name]" id="event[name]" placeholder="">
+<div class="row"></div>
+<h3>Add Event</h3>
+    <div class="col-5">
+        <form action="/events" method="post">
+            <% if flash[:event_errors] %>
+                <% flash[:event_errors].each do |error| %>
+                    <p class="text-danger"><%= error %></p>
+                <%end%>
+            <%end%>
+            <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token =%>'>
+            <div class="form-group">
+            <label for="event[name]">Name</label>
+            <input type="text" class="form-control" name="event[name]" id="event[name]" placeholder="">
+            </div>
+            <div class="form-group">
+                <input type="date" name="event[date]" id="date">
+            </div>
+            <div class="form-group">
+              <label for="event[city]">Location</label>
+              <input type="text" class="form-control" name="event[city]" id="event[city]" placeholder="">
+            </div>
+            <div class="form-group">
+                <label for="event[state]">State: </label>
+                <select class="input-small" name="event[state]" id="">
+                    <% @states.each do |state|%>
+                        <option value="<%= state %>"><%= state %></option>
+                    <%end%>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Event</button>
+        </form>
     </div>
-    <div class="form-group">
-        <input type="date" name="event[date]" id="date">
-    </div>
-    
-</form>
+</div>

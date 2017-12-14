@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   has_secure_password
   has_many :events
+  has_many :attendees
   has_many :events_attending, through: :attendees, source: :event
   validates :first_name, :last_name, :email, :city, :state, presence: true
   validates :password, presence: true, length: {minimum: 5, maximum: 120}, on: :create

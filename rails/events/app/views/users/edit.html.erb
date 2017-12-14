@@ -1,2 +1,39 @@
-<h1>Users#edit</h1>
-<p>Find me in app/views/users/edit.html.erb</p>
+<h2>Edit Your Profile</h2>
+
+<div class="row">
+    <div class="col-6">
+        <form action="/users/<%= @current_user.id%>" method="post">
+            <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token =%>'>
+            <input type="hidden" name="_method" value="patch">
+            <div class="form-group">
+            <label for="user[first_name]">First Name</label>
+            <input type="text" class="form-control" name="user[first_name]" id="user[first_name]" value="<%= @current_user.first_name%>" placeholder="">
+            </div>
+            <div class="form-group">
+            <label for="user[last_name]">Last Name</label>
+            <input type="text" class="form-control" name="user[last_name]" id="user[last_name]" value="<%= @current_user.last_name %>" placeholder="">
+            </div>
+            <div class="form-group">
+            <label for="user[email]">Email</label>
+            <input type="text" class="form-control" name="user[email]" value="<%= @current_user.email%>" id="user[email]" placeholder="">
+            </div>
+            <div class="form-group">
+            <label for="user[city]">City</label>
+            <input type="text" class="form-control" name="user[city]" id="user[city]" value="<%= @current_user.city %>" placeholder="">
+            </div>
+            <div class="form-group">
+                <label for="user[state]">State: </label>
+                <select class="input-small" name="user[state]" id="">
+                <% @states.each do |state|%>
+                    <% if state == @current_user.state%>
+                        <option selected="selected" value="<%= state %>"><%= state %></option>
+                    <% else %>
+                        <option value="<%= state %>"><%= state %></option>
+                    <%end%>
+                <%end%>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-info float-right">Update Record</button>
+        </form>
+    </div>
+</div>
