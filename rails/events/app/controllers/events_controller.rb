@@ -4,6 +4,7 @@ class EventsController < ApplicationController
   def show
     @event = Event.joins(:user).find(params[:id])
     @attendees = Attendee.joins(:user).where(event_id:params[:id])
+    @comments = Comment.where(event_id: params[:id])
   end
 
   def index

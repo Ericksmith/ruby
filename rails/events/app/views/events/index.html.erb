@@ -1,7 +1,5 @@
-<h1>Welcome, <%= @current_user.first_name %></h1>
-
-
-<p>Where are some of the events in your state: </p>
+<h2>Events! Create, share, join.</h2>
+<p>Here are some of the events in your state: </p>
 
 <div>
     <table class="table table-striped">
@@ -24,19 +22,28 @@
                         <td><%= event.user.first_name%></td>
                         <td>
                             <% if event.users %>
-                                <% event.users.any? do |user|%>
+                                <% @joined = false%> 
+                                <% event.users.each do |user|%>
                                     <% if user.id == @current_user.id %>
-                                    <a name="leave" id="" class="btn btn-warning" data-method="delete" href="/attendees/<% event.id %> " role="button">Leave Event</a>
-                                    <%else%>
-                                        <a href="/attendees/<% event.id %>" class="btn btn-success" data-method="post" role="button">Join</a>    
+                                        <% @joined = true %>
+                                        <% user.attendees.each do |attend| %>
+                                            <% if event.id == attend.event_id %>
+                                            <% @attend = attend.id %>
+                                        <%end%>
+                                    <%end%>
                                     <%end%>
                                 <%end%>
+                            <% if @joined %>
+                                <a name="leave" id="" class="btn btn-warning" data-method="delete" href="/attendees/<%= @attend %> " role="button">Leave Event</a>
+                            <% else %>
+                                <form action="/attendees" method="post">
+                                    <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token =%>'>
+                                    <button type="submit" class="btn btn-success">Join</button>    
+                                    <input type="hidden" name="event_id" value="<%= event.id %>">
+                                </form>   
+                            <%end%>   
                             <%end%>
-                            <form action="/attendees" method="post">
-                                <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token =%>'>
-                                <button type="submit" class="btn btn-success">Join</button>    
-                                <input type="hidden" name="event_id" value="<%= event.id %>">
-                            </form>
+                            
                             <% if event.user_id == @current_user.id %>
                                 <a href="/events/<%= event.id %>" class="btn btn-danger" data-method="delete" role="button">Delete</a>
                             <%end%>
@@ -70,19 +77,31 @@
             <td><%= event.state %></td>
             <td><%= event.user.first_name%></td>
             <td>
-                <% if event.users %>
-                    <% event.users.any? do |user| %>
+                    <% if event.users %>
+                    <% @joined = false%> 
+                    <% event.users.each do |user|%>
                         <% if user.id == @current_user.id %>
-                            <a name="leave" id="" class="btn btn-warning" data-method="delete" href="/attendees/<% event.id %> " role="button">Leave Event</a>
-                        <%else%>
+                            <% @joined = true %>
+                            <% user.attendees.each do |attend| %>
+                                <% if event.id == attend.event_id %>
+                                <% @attend = attend.id %>
+                            <%end%>
                         <%end%>
                         <%end%>
-                        <%end%>
-                        <form action="/attendees" method="post">
-                            <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token =%>'>
-                            <button type="submit" class="btn btn-success">Join</button>    
-                            <input type="hidden" name="event_id" value="<%= event.id %>">
-                        </form>
+                    <%end%>
+                <% if @joined %>
+                    <a name="leave" id="" class="btn btn-warning" data-method="delete" href="/attendees/<%= @attend %> " role="button">Leave Event</a>
+                <% else %>
+                <div class="inlineButton">
+                    <form action="/attendees" method="post">
+                        <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token =%>'>
+                        <button type="submit" class="btn btn-success">Join</button>    
+                        <input type="hidden" name="event_id" value="<%= event.id %>">
+                    </form>   
+                </div>
+                <%end%>   
+                <%end%>
+                
                 <% if event.user_id == @current_user.id %>
                     <a href="/events/<%= event.id %>" class="btn btn-danger" data-method="delete" role="button">Delete</a>
                 <%end%>

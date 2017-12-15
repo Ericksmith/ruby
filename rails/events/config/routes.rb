@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   root "users#new"
 
+  post "users/login" => "users#login"
   get "users/logout" => "users#logout"
   resources :attendees, only: [:create, :destroy]
   resources :users, only: [:new, :edit, :update, :create]

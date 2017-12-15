@@ -10,10 +10,25 @@
   
   <div class="container">
 <% if current_user %>
-  <p class="float-right"> 
-    <a name="edit" id="edit" class="btn btn-primary" href="/users/<%= current_user.id %>/edit" role="button">Edit My Profile</a>  
-    <a name="logout" id="logout" class="btn btn-secondary" href="/users/logout" role="button">Logout</a>
-  </p>
+  <nav class="navbar navbar-expand-xl navbar-light bg-info">
+    <a class="navbar-brand" href="/users/<%= current_user.id %>/edit">Welcome <%= current_user.first_name %></a>
+    <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
+        aria-expanded="false" aria-label="Toggle navigation"></button>
+    <div class="collapse navbar-collapse" id="collapsibleNavId">
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        <li class="nav-item active">
+          <a class="nav-link" href="/events">Events <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item active">
+        <a class="nav-link" href="/users/<%= current_user.id %>/edit">Profile <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item active">
+        <a class="nav-link" href="/users/logout">Logout <span class="sr-only">(current)</span></a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <br><br>
 
 <%end%>
 <%if flash[:errors] %>

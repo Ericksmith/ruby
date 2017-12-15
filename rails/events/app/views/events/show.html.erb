@@ -13,13 +13,13 @@
                     <th>State</th>
                 </tr>
             </thead>
-            <% if @attendeestt %>
+            <% if @attendees %>
             <tbody>
                 <% @attendees.each do |attendee|%>
                 <tr>
-                    <td scope="row"><%= attendee.first_name %> <%= attendee.last_name %></td>
-                    <td><%= attendee.city %></td>
-                    <td><%= attendee.state %></td>
+                    <td scope="row"><%= attendee.user.first_name %> <%= attendee.user.last_name %></td>
+                    <td><%= attendee.user.city %></td>
+                    <td><%= attendee.user.state %></td>
                 </tr>
                 <%end%>
             </tbody>
@@ -28,10 +28,19 @@
     </div>
     <div class="col-5">
         <h4>Discussion about this event:</h4>
+        <% if @comments %>
+            <% @comments.each do |comment|%>
+                <p><%= comment.content %></p>
+                <hr>
+            <%end%>
+        <%end%>
         <form action="/comments" method="post">
             <div class="form-group">
+              <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token =%>'>
               <label for="comment[content]">Add Comment:</label>
               <textarea class="form-control" name="comment[content]" id="comment[content]" rows="3"></textarea>
+              <input type="hidden" name="comment[event_id]" value="<%= @event.id%>">
+              <input type="hidden" name="comment[user_id]" value="<%=current_user.id%>">
             </div>
             <button type="submit" class="btn btn-info">Submit Comments</button>
         </form>

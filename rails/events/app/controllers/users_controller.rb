@@ -2,6 +2,9 @@ class UsersController < ApplicationController
   before_action :require_login, only: [:edit]
 
   def new
+    unless session[:user_id] == nil
+      redirect_to events_path
+    end
     @states = @@states
   end
 
@@ -35,6 +38,22 @@ class UsersController < ApplicationController
   def logout
     session[:user_id] = nil
     redirect_to "/"
+  end
+
+  def login
+    user = User.find_by(email: params[:email])
+    if user
+      if user.authenticate(params[:password])
+        session[:user_id] = user.id
+        redirect_to events_path
+      else
+        flash[:errors] = ["Email/password combo not found."]
+        redirect_to :back
+      end
+    else
+      flash[:errors] = ["Email/password combo not found."]
+      redirect_to :back
+    end
   end
 
   private
